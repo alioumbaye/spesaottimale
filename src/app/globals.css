@@ -7,10 +7,12 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
   }
 
   body {
     font-family: 'Inter', system-ui, sans-serif;
+    overflow-x: hidden;
     @apply bg-gray-50 text-gray-900 antialiased;
   }
 }

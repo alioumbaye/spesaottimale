@@ -135,7 +135,7 @@ export default function HomePage() {
         </section>
 
         {/* Form + Risultati */}
-        <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 pb-24 sm:pb-12">
           {/* Banner "Segnala un prezzo" */}
           <div className="flex items-center justify-between mb-6 bg-white rounded-xl border border-gray-100 shadow-sm px-5 py-4">
             <div>
