@@ -15,7 +15,10 @@ function calcolaRiepilogo(
   prodotti: string[],
   prezzi: Record<string, PrezzoPerSupermercato[]>
 ): Record<Supermercato, number> {
-  const totali = Object.fromEntries(SUPERMERCATI.map((s) => [s, 0])) as Record<Supermercato, number>;
+  const totali = SUPERMERCATI.reduce<Record<Supermercato, number>>(
+    (acc, s) => ({ ...acc, [s]: 0 }),
+    {} as Record<Supermercato, number>
+  );
   for (const prodotto of prodotti) {
     for (const { supermercato, prezzo } of prezzi[prodotto] ?? []) {
       totali[supermercato] = (totali[supermercato] ?? 0) + prezzo;
@@ -37,7 +40,10 @@ function getSpesaOttimale(
   prezzi: Record<string, PrezzoPerSupermercato[]>
 ): { totaleOttimale: number; acquisti: Record<Supermercato, string[]> } {
   let totaleOttimale = 0;
-  const acquisti = Object.fromEntries(SUPERMERCATI.map((s) => [s, []])) as Record<Supermercato, string[]>;
+  const acquisti = SUPERMERCATI.reduce<Record<Supermercato, string[]>>(
+    (acc, s) => ({ ...acc, [s]: [] }),
+    {} as Record<Supermercato, string[]>
+  );
   for (const prodotto of prodotti) {
     const p = prezzi[prodotto];
     if (!p || p.length === 0) continue;
