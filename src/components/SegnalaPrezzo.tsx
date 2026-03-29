@@ -45,20 +45,23 @@ export default function SegnalaPrezzo() {
       {/* Bottone trigger */}
       <button
         onClick={() => setAperto(true)}
-        className="flex items-center gap-2 text-sm font-semibold text-green-700 bg-green-50 border border-green-200 px-4 py-2 rounded-full hover:bg-green-100 transition-all"
+        className="flex items-center gap-2 text-sm font-semibold text-green-700 bg-green-50 border border-green-200 px-4 py-2.5 rounded-full hover:bg-green-100 active:scale-95 transition-all min-h-[44px]"
       >
-        <span>📣</span> Segnala un prezzo
+        <span>📣</span>
+        <span className="hidden xs:inline sm:hidden md:inline">Segnala un prezzo</span>
+        <span className="xs:hidden sm:inline md:hidden">Segnala</span>
       </button>
 
-      {/* Modal overlay */}
+      {/* Modal — full-screen su mobile, centered su sm+ */}
       {aperto && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4 bg-black/40 backdrop-blur-sm"
           onClick={(e) => e.target === e.currentTarget && reset()}
         >
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden animate-slide-up">
+          {/* Sheet che sale dal basso su mobile, modal centrata su sm+ */}
+          <div className="bg-white w-full sm:max-w-md sm:rounded-2xl rounded-t-2xl shadow-2xl overflow-hidden animate-slide-up">
             {/* Header */}
-            <div className="bg-gradient-to-r from-green-600 to-emerald-500 px-6 py-5">
+            <div className="bg-gradient-to-r from-green-600 to-emerald-500 px-5 py-4">
               <div className="flex justify-between items-start">
                 <div>
                   <h2 className="text-white font-bold text-lg">Segnala un prezzo</h2>
@@ -66,24 +69,30 @@ export default function SegnalaPrezzo() {
                     Aiuta la community a risparmiare
                   </p>
                 </div>
-                <button onClick={reset} className="text-white/70 hover:text-white text-2xl leading-none">
-                  ×
+                <button
+                  onClick={reset}
+                  className="text-white/70 hover:text-white w-9 h-9 flex items-center justify-center rounded-lg hover:bg-white/10 transition-colors"
+                  aria-label="Chiudi"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
                 </button>
               </div>
             </div>
 
             {/* Body */}
-            <div className="p-6">
+            <div className="p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
               {invio === "ok" ? (
-                <div className="text-center py-6">
+                <div className="text-center py-8">
                   <div className="text-5xl mb-3">🙏</div>
-                  <h3 className="text-lg font-bold text-gray-900 mb-2">Grazie per la segnalazione!</h3>
+                  <h3 className="text-lg font-bold text-gray-900 mb-2">Grazie!</h3>
                   <p className="text-gray-500 text-sm mb-6">
                     Il tuo prezzo è stato aggiunto al database e aiuterà altri utenti a risparmiare.
                   </p>
                   <button
                     onClick={reset}
-                    className="px-6 py-2.5 bg-green-600 text-white font-semibold rounded-xl hover:bg-green-700 transition-all text-sm"
+                    className="w-full py-3.5 bg-green-600 text-white font-semibold rounded-xl hover:bg-green-700 active:scale-[0.98] transition-all min-h-[44px]"
                   >
                     Chiudi
                   </button>
@@ -91,34 +100,36 @@ export default function SegnalaPrezzo() {
               ) : (
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-1">
+                    <label className="block text-sm font-semibold text-gray-700 mb-1.5">
                       Nome prodotto *
                     </label>
                     <input
                       value={form.nome}
                       onChange={set("nome")}
                       placeholder="Es. Latte intero 1L"
-                      className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-green-200 focus:border-green-400 transition-all"
+                      autoComplete="off"
+                      className="w-full px-4 py-3.5 border border-gray-200 rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-green-200 focus:border-green-400 transition-all min-h-[44px]"
                     />
                   </div>
 
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-1">
+                      <label className="block text-sm font-semibold text-gray-700 mb-1.5">
                         Prezzo (€) *
                       </label>
                       <input
                         type="number"
+                        inputMode="decimal"
                         step="0.01"
                         min="0.01"
                         value={form.prezzo}
                         onChange={set("prezzo")}
                         placeholder="1.29"
-                        className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-green-200 focus:border-green-400 transition-all"
+                        className="w-full px-4 py-3.5 border border-gray-200 rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-green-200 focus:border-green-400 transition-all min-h-[44px]"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-1">
+                      <label className="block text-sm font-semibold text-gray-700 mb-1.5">
                         CAP negozio *
                       </label>
                       <input
@@ -131,19 +142,20 @@ export default function SegnalaPrezzo() {
                         }
                         placeholder="20121"
                         maxLength={5}
-                        className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-green-200 focus:border-green-400 transition-all"
+                        inputMode="numeric"
+                        className="w-full px-4 py-3.5 border border-gray-200 rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-green-200 focus:border-green-400 transition-all min-h-[44px]"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-1">
+                    <label className="block text-sm font-semibold text-gray-700 mb-1.5">
                       Supermercato *
                     </label>
                     <select
                       value={form.supermercato}
                       onChange={set("supermercato")}
-                      className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-green-200 focus:border-green-400 transition-all"
+                      className="w-full px-4 py-3.5 border border-gray-200 rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-green-200 focus:border-green-400 transition-all min-h-[44px]"
                     >
                       {SUPERMERCATI.map((s) => (
                         <option key={s} value={s}>
@@ -154,7 +166,7 @@ export default function SegnalaPrezzo() {
                   </div>
 
                   {invio === "err" && (
-                    <p className="text-red-500 text-sm bg-red-50 border border-red-100 rounded-lg px-4 py-2">
+                    <p className="text-red-500 text-sm bg-red-50 border border-red-100 rounded-xl px-4 py-3">
                       ❌ Errore nell&apos;invio. Controlla i dati e riprova.
                     </p>
                   )}
@@ -162,14 +174,10 @@ export default function SegnalaPrezzo() {
                   <button
                     onClick={invia}
                     disabled={!valido || invio === "loading"}
-                    className="w-full py-3 bg-gradient-to-r from-green-600 to-emerald-500 text-white font-bold rounded-xl hover:from-green-700 hover:to-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md text-sm"
+                    className="w-full py-3.5 bg-gradient-to-r from-green-600 to-emerald-500 text-white font-bold rounded-xl hover:from-green-700 hover:to-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98] transition-all shadow-md min-h-[44px]"
                   >
                     {invio === "loading" ? "Invio in corso..." : "📤 Invia segnalazione"}
                   </button>
-
-                  <p className="text-xs text-gray-400 text-center">
-                    I prezzi segnalati vengono aggiunti al database community e sono visibili a tutti.
-                  </p>
                 </div>
               )}
             </div>

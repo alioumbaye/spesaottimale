@@ -77,103 +77,98 @@ export default function RisultatiSpesa({
   const [, totalePeggiore] = supOrd[supOrd.length - 1];
   const risparmioMax = totalePeggiore - totaleMigliore;
 
-  // Quanti prezzi vengono dalla community
-  const nCommunity = Object.values(prezzi)
-    .flat()
-    .filter((p) => p.fonte === "community").length;
+  const nCommunity = Object.values(prezzi).flat().filter((p) => p.fonte === "community").length;
 
   return (
-    <div className="space-y-6 animate-fade-in">
+    <div className="space-y-5 animate-fade-in">
 
       {/* Banner fonte dati */}
       {fonte && (
-        <div className={`flex items-center gap-2 text-xs px-4 py-2 rounded-xl border ${
+        <div className={`flex flex-wrap items-center gap-2 text-xs px-4 py-2.5 rounded-xl border ${
           fonte === "database"
             ? "bg-green-50 border-green-200 text-green-700"
             : "bg-amber-50 border-amber-200 text-amber-700"
         }`}>
           <span>{fonte === "database" ? "✅" : "📊"}</span>
-          {fonte === "database"
-            ? cap_usato
-              ? `Prezzi dal database per CAP ${cap_usato}`
-              : "Prezzi nazionali dal database (nessun dato locale)"
-            : "Prezzi indicativi — aggiorna il database per dati reali"}
+          <span className="flex-1">
+            {fonte === "database"
+              ? cap_usato ? `Prezzi dal database per CAP ${cap_usato}` : "Prezzi nazionali dal database"
+              : "Prezzi indicativi — aggiungi dati reali dall'area admin"}
+          </span>
           {nCommunity > 0 && (
-            <span className="ml-auto flex items-center gap-1 bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full">
-              👥 {nCommunity} prezz{nCommunity === 1 ? "o" : "i"} dalla community
+            <span className="flex items-center gap-1 bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full whitespace-nowrap">
+              👥 {nCommunity} dalla community
             </span>
           )}
         </div>
       )}
 
       {/* Banner risparmio */}
-      <div className="bg-gradient-to-r from-green-600 to-emerald-500 rounded-2xl p-6 text-white shadow-xl">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div>
+      <div className="bg-gradient-to-r from-green-600 to-emerald-500 rounded-2xl p-5 text-white shadow-xl">
+        <div className="flex items-start justify-between gap-3">
+          <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-1">
-              <span className="text-2xl">🏆</span>
-              <span className="text-green-100 text-sm font-medium uppercase tracking-wide">
-                Spesa ottimale — suddivisa tra supermercati
+              <span className="text-xl">🏆</span>
+              <span className="text-green-100 text-xs font-medium uppercase tracking-wide">
+                Spesa ottimale
               </span>
             </div>
-            <div className="text-4xl font-black">€{totaleOttimale.toFixed(2)}</div>
-            <p className="text-green-100 text-sm mt-1">
-              Risparmi fino a{" "}
-              <span className="font-bold text-white">€{risparmioMax.toFixed(2)}</span>{" "}
-              rispetto al supermercato più caro
+            <div className="text-3xl sm:text-4xl font-black">€{totaleOttimale.toFixed(2)}</div>
+            <p className="text-green-100 text-xs sm:text-sm mt-1">
+              Risparmi fino a <span className="font-bold text-white">€{risparmioMax.toFixed(2)}</span> rispetto al più caro
             </p>
           </div>
-          <div className="bg-white/10 rounded-xl p-4 text-center">
-            <div className="text-xs text-green-100 mb-1">Zona</div>
-            <div className="text-2xl font-black">📍 {cap}</div>
-            <div className="text-xs text-green-200 mt-1">
-              {prodotti.length} prodott{prodotti.length === 1 ? "o" : "i"} analizzat{prodotti.length === 1 ? "o" : "i"}
+          <div className="bg-white/10 rounded-xl px-3 py-2.5 text-center flex-shrink-0">
+            <div className="text-xs text-green-200 mb-0.5">CAP</div>
+            <div className="text-lg font-black">📍 {cap}</div>
+            <div className="text-xs text-green-200 mt-0.5">
+              {prodotti.length} prodott{prodotti.length === 1 ? "o" : "i"}
             </div>
           </div>
         </div>
       </div>
 
-      {/* Classifica supermercati */}
+      {/* Classifica supermercati — già ottima su mobile */}
       <div>
-        <h3 className="text-lg font-bold text-gray-900 mb-3">Confronto supermercati</h3>
-        <div className="space-y-3">
+        <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-3">Confronto supermercati</h3>
+        <div className="space-y-2.5">
           {supOrd.map(([sup, totale], index) => {
             const percentuale = ((totale - totaleMigliore) / totaleMigliore) * 100;
             const barWidth = Math.min(100, (totale / totalePeggiore) * 100);
             return (
               <div key={sup}
-                className={`bg-white rounded-xl border p-4 transition-all ${
-                  index === 0 ? "border-green-300 shadow-md ring-1 ring-green-200" : "border-gray-100 hover:border-gray-200 hover:shadow-sm"
+                className={`bg-white rounded-xl border p-3.5 sm:p-4 transition-all ${
+                  index === 0 ? "border-green-300 shadow-md ring-1 ring-green-200" : "border-gray-100"
                 }`}
               >
                 <div className="flex items-center justify-between mb-2">
-                  <div className="flex items-center gap-3">
-                    <span className="text-2xl">{SUPERMERCATO_ICON[sup]}</span>
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <span className="font-bold text-gray-900">{sup}</span>
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <span className="text-xl flex-shrink-0">{SUPERMERCATO_ICON[sup]}</span>
+                    <div className="min-w-0">
+                      <div className="flex items-center gap-1.5 flex-wrap">
+                        <span className="font-bold text-gray-900 text-sm">{sup}</span>
                         {index === 0 && (
-                          <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-medium">
+                          <span className="text-xs bg-green-100 text-green-700 px-1.5 py-0.5 rounded-full font-medium whitespace-nowrap">
                             Più economico
                           </span>
                         )}
                       </div>
                       {acquisti[sup].length > 0 && (
-                        <p className="text-xs text-gray-400 mt-0.5">
-                          Conveniente per: {acquisti[sup].slice(0, 3).join(", ")}
-                          {acquisti[sup].length > 3 && ` +${acquisti[sup].length - 3}`}
+                        <p className="text-xs text-gray-400 mt-0.5 truncate max-w-[180px] sm:max-w-none">
+                          {acquisti[sup].slice(0, 2).join(", ")}
+                          {acquisti[sup].length > 2 && ` +${acquisti[sup].length - 2}`}
                         </p>
                       )}
                     </div>
                   </div>
-                  <div className="text-right">
-                    <div className="text-xl font-black text-gray-900">€{totale.toFixed(2)}</div>
+                  <div className="text-right flex-shrink-0 ml-2">
+                    <div className="text-lg sm:text-xl font-black text-gray-900">€{totale.toFixed(2)}</div>
                     {index > 0 ? (
                       <div className="text-xs text-red-500 font-medium">
-                        +€{(totale - totaleMigliore).toFixed(2)} (+{percentuale.toFixed(0)}%)
+                        +{percentuale.toFixed(0)}%
                       </div>
                     ) : (
-                      <div className="text-xs text-green-600 font-medium">Prezzo più basso</div>
+                      <div className="text-xs text-green-600 font-medium">migliore</div>
                     )}
                   </div>
                 </div>
@@ -189,10 +184,76 @@ export default function RisultatiSpesa({
         </div>
       </div>
 
-      {/* Tabella dettaglio */}
+      {/* Dettaglio prezzi per prodotto */}
       <div>
-        <h3 className="text-lg font-bold text-gray-900 mb-3">Dove conviene ogni prodotto</h3>
-        <div className="bg-white rounded-xl border border-gray-100 overflow-hidden shadow-sm">
+        <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-3">Dove conviene ogni prodotto</h3>
+
+        {/* ── VISTA MOBILE: card per prodotto (hidden su sm+) ── */}
+        <div className="sm:hidden space-y-3">
+          {prodotti.map((prodotto) => {
+            const p = prezzi[prodotto];
+            if (!p || p.length === 0) return null;
+            const prezziOrd = [...p].sort((a, b) => a.prezzo - b.prezzo);
+            const migliore = prezziOrd[0];
+
+            return (
+              <div key={prodotto} className="bg-white rounded-xl border border-gray-100 overflow-hidden shadow-sm">
+                {/* Intestazione prodotto */}
+                <div className="px-4 py-2.5 bg-gray-50 border-b border-gray-100 flex items-center justify-between">
+                  <span className="font-semibold text-gray-900 text-sm">{prodotto}</span>
+                  <span className="text-xs text-green-700 font-bold bg-green-100 px-2 py-0.5 rounded-full">
+                    da €{migliore.prezzo.toFixed(2)}
+                  </span>
+                </div>
+                {/* Prezzi ordinati */}
+                <div className="divide-y divide-gray-50">
+                  {prezziOrd.map((entry, idx) => (
+                    <div
+                      key={entry.supermercato}
+                      className={`flex items-center justify-between px-4 py-3 ${idx === 0 ? "bg-green-50/60" : ""}`}
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <span className="text-lg">{SUPERMERCATO_ICON[entry.supermercato]}</span>
+                        <div>
+                          <span className={`text-sm font-medium ${idx === 0 ? "text-green-800" : "text-gray-700"}`}>
+                            {entry.supermercato}
+                          </span>
+                          {entry.data_rilevazione && (
+                            <div className="text-[10px] text-gray-400">
+                              {formatData(entry.data_rilevazione)}
+                              {entry.fonte === "community" && " 👥"}
+                            </div>
+                          )}
+                        </div>
+                        {idx === 0 && (
+                          <span className="text-[10px] bg-green-200 text-green-800 px-1.5 py-0.5 rounded-full font-semibold">
+                            migliore
+                          </span>
+                        )}
+                      </div>
+                      <div className="text-right">
+                        <span className={`font-mono font-bold text-sm ${idx === 0 ? "text-green-700" : "text-gray-600"}`}>
+                          €{entry.prezzo.toFixed(2)}
+                        </span>
+                        {idx > 0 && (
+                          <div className="text-[10px] text-red-400 font-medium">
+                            +€{(entry.prezzo - migliore.prezzo).toFixed(2)}
+                          </div>
+                        )}
+                        {entry.promozione && (
+                          <div className="text-[10px] text-orange-600">{entry.promozione}</div>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* ── VISTA DESKTOP: tabella (hidden su mobile) ── */}
+        <div className="hidden sm:block bg-white rounded-xl border border-gray-100 overflow-hidden shadow-sm">
           <div className="overflow-x-auto">
             <table className="w-full text-xs min-w-[900px]">
               <thead>
@@ -277,21 +338,21 @@ export default function RisultatiSpesa({
 
       {/* Piano spesa ottimale */}
       {Object.values(acquisti).some((a) => a.length > 0) && (
-        <div className="bg-amber-50 border border-amber-200 rounded-xl p-5">
-          <h4 className="font-bold text-amber-900 mb-3 flex items-center gap-2">
+        <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 sm:p-5">
+          <h4 className="font-bold text-amber-900 mb-2 flex items-center gap-2 text-sm sm:text-base">
             <span>💡</span> Piano spesa ottimale
           </h4>
-          <p className="text-amber-800 text-sm mb-4">
+          <p className="text-amber-800 text-xs sm:text-sm mb-3">
             Dividendo gli acquisti tra supermercati risparmi il massimo:
           </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
             {(Object.entries(acquisti) as [Supermercato, string[]][])
               .filter(([, items]) => items.length > 0)
               .map(([sup, items]) => (
-                <div key={sup} className={`px-4 py-3 rounded-lg border text-sm ${SUPERMERCATO_BADGE[sup]}`}>
-                  <div className="font-bold mb-1">{SUPERMERCATO_ICON[sup]} {sup}</div>
+                <div key={sup} className={`px-3.5 py-3 rounded-lg border text-sm ${SUPERMERCATO_BADGE[sup]}`}>
+                  <div className="font-bold mb-1 text-sm">{SUPERMERCATO_ICON[sup]} {sup}</div>
                   {items.map((item) => (
-                    <div key={item} className="opacity-80">• {item}</div>
+                    <div key={item} className="opacity-80 text-xs">• {item}</div>
                   ))}
                 </div>
               ))}
@@ -299,10 +360,10 @@ export default function RisultatiSpesa({
         </div>
       )}
 
-      <p className="text-xs text-gray-400 text-center">
+      <p className="text-xs text-gray-400 text-center px-2">
         {fonte === "database"
-          ? "* Prezzi rilevati dai negozi o segnalati dalla community. Verificare sempre le offerte aggiornate in negozio."
-          : "* Prezzi indicativi basati su medie di mercato. Aggiungi dati reali dall'area admin o segnala un prezzo."}
+          ? "* Prezzi rilevati dai negozi o segnalati dalla community. Verifica sempre in negozio."
+          : "* Prezzi indicativi. Aggiungi dati reali dall'area admin o segnala un prezzo."}
       </p>
     </div>
   );

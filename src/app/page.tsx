@@ -67,46 +67,55 @@ export default function HomePage() {
             <div className="absolute top-1/2 left-1/3 w-40 h-40 bg-white/5 rounded-full" />
           </div>
 
-          <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-16 lg:py-20">
+            <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
               <div className="animate-slide-up">
-                <div className="inline-flex items-center gap-2 bg-white/15 backdrop-blur-sm border border-white/20 rounded-full px-4 py-1.5 text-sm font-medium mb-6">
+                {/* Badge — compatto su mobile */}
+                <div className="inline-flex items-center gap-1.5 bg-white/15 backdrop-blur-sm border border-white/20 rounded-full px-3 py-1 text-xs sm:text-sm font-medium mb-4 sm:mb-6">
                   <span className="animate-pulse-slow">🟢</span>
                   Confronta 10 supermercati in tempo reale
                 </div>
 
-                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight mb-6">
+                <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black leading-tight mb-3 sm:mb-6">
                   Spesa{" "}
                   <span className="text-yellow-300">Ottimale</span>
                 </h1>
 
-                <p className="text-green-100 text-lg sm:text-xl leading-relaxed mb-6 max-w-lg">
-                  Inserisci la tua lista della spesa e il CAP: ti diciamo in quali
-                  supermercati conviene comprare ogni prodotto per{" "}
+                <p className="text-green-100 text-sm sm:text-lg leading-relaxed mb-4 sm:mb-6 max-w-lg">
+                  Inserisci la lista della spesa e il CAP: ti diciamo dove conviene comprare ogni prodotto per{" "}
                   <strong className="text-white">spendere il meno possibile</strong>.
                 </p>
 
-                {/* Badge community */}
-                <div className="flex items-center gap-2 mb-6">
+                {/* Badge community + supermercati — nascosti su mobile per compattezza */}
+                <div className="hidden sm:flex items-center gap-2 mb-4 sm:mb-6">
                   <span className="bg-purple-500/30 border border-purple-300/40 text-purple-100 text-xs px-3 py-1.5 rounded-full font-medium">
                     👥 Prezzi segnalati dalla community
                   </span>
                 </div>
 
-                <div className="flex flex-wrap gap-2">
+                {/* Pillole supermercati: 5 su mobile, 10 su sm+ */}
+                <div className="flex flex-wrap gap-1.5 sm:gap-2">
                   {[
-                    "🟡 Lidl", "🔴 Esselunga", "🍎 Conad", "🟠 Eurospin", "🔵 Coop",
-                    "🔷 Carrefour", "🟥 Penny", "🟢 In's", "🔹 Aldi", "🟧 Pam",
+                    "🟡 Lidl", "🟠 Eurospin", "🔹 Aldi", "🟥 Penny", "🍎 Conad",
                   ].map((s) => (
                     <span key={s}
-                      className="bg-white/15 backdrop-blur-sm border border-white/20 text-white text-sm px-3 py-1.5 rounded-full font-medium">
+                      className="bg-white/15 backdrop-blur-sm border border-white/20 text-white text-xs sm:text-sm px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full font-medium">
+                      {s}
+                    </span>
+                  ))}
+                  {[
+                    "🔷 Carrefour", "🔴 Esselunga", "🔵 Coop", "🟢 In's", "🟧 Pam",
+                  ].map((s) => (
+                    <span key={s}
+                      className="hidden sm:inline bg-white/15 backdrop-blur-sm border border-white/20 text-white text-sm px-3 py-1.5 rounded-full font-medium">
                       {s}
                     </span>
                   ))}
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              {/* Stats grid — nascosta su mobile (troppo spazio) */}
+              <div className="hidden sm:grid grid-cols-2 gap-4">
                 {[
                   { valore: "10", label: "Supermercati confrontati", icon: "🏪" },
                   { valore: "~30%", label: "Risparmio medio possibile", icon: "💰" },
@@ -114,9 +123,9 @@ export default function HomePage() {
                   { valore: "🇮🇹", label: "Fatto per l'Italia", icon: "📍" },
                 ].map((stat) => (
                   <div key={stat.label}
-                    className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-5 text-center">
-                    <div className="text-3xl mb-1">{stat.icon}</div>
-                    <div className="text-2xl font-black">{stat.valore}</div>
+                    className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-4 sm:p-5 text-center">
+                    <div className="text-2xl sm:text-3xl mb-1">{stat.icon}</div>
+                    <div className="text-xl sm:text-2xl font-black">{stat.valore}</div>
                     <div className="text-green-200 text-xs mt-1 leading-tight">{stat.label}</div>
                   </div>
                 ))}
