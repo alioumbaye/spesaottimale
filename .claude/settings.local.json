@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find /Users/mbayealiou/spesaottimale -type f -name *.py)",
+      "Bash(find /Users/mbayealiou/spesaottimale -maxdepth 3 -type d ! -path */node_modules/* ! -path */.next/*)",
+      "Bash(rm -rf /Users/mbayealiou/spesaottimale/scrapers /Users/mbayealiou/spesaottimale/requirements.txt /Users/mbayealiou/spesaottimale/prezzi_reali.json)",
+      "Bash(mkdir -p /Users/mbayealiou/spesaottimale/src/app/admin /Users/mbayealiou/spesaottimale/src/app/api/confronto /Users/mbayealiou/spesaottimale/src/app/api/prodotti /Users/mbayealiou/spesaottimale/src/app/api/segnala)",
+      "Bash(npm install:*)"
+    ]
+  }
+}
